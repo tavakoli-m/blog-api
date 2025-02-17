@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginUserController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
@@ -24,4 +25,5 @@ Route::prefix('post')->controller(PostController::class)->group(function(){
 
 Route::prefix('auth')->group(function(){
     Route::post('/register',RegisterUserController::class);
+    Route::post('/login',LoginUserController::class);
 });
