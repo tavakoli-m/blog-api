@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,8 @@ Route::prefix('post')->controller(PostController::class)->group(function(){
     Route::get('/{post}','show');
     Route::put('/update/{post}','update');
     Route::delete('/delete/{post}','destroy');
+});
+
+Route::prefix('auth')->group(function(){
+    Route::post('/register',RegisterUserController::class);
 });
