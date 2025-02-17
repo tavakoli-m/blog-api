@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\GetMeController;
 use App\Http\Controllers\Auth\LoginUserController;
+use App\Http\Controllers\Auth\LogoutUserController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
@@ -28,4 +29,5 @@ Route::prefix('auth')->group(function(){
     Route::post('/register',RegisterUserController::class);
     Route::post('/login',LoginUserController::class);
     Route::get('/me',GetMeController::class)->middleware('auth:sanctum');
+    Route::get('/logout',LogoutUserController::class)->middleware('auth:sanctum');
 });
