@@ -8,19 +8,18 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-
-Route::prefix('category')->controller(CategoryController::class)->group(function(){
-    Route::get('/','index');
+Route::middleware('auth:sanctum')->prefix('category')->controller(CategoryController::class)->group(function(){
+    Route::withoutMiddleware('auth:sanctum')->get('/','index');
     Route::post('create','store');
     Route::get('/{category}','show');
     Route::put('/update/{category}','update');
     Route::delete('/delete/{category}','destroy');
 });
 
-Route::prefix('post')->controller(PostController::class)->group(function(){
-    Route::get('/','index');
+Route::middleware('auth:sanctum')->prefix('post')->controller(PostController::class)->group(function(){
+    Route::withoutMiddleware('auth:sanctum')->get('/','index');
     Route::post('create','store');
-    Route::get('/{post}','show');
+    Route::get('/{post}','show')->withoutMiddleware('auth');
     Route::put('/update/{post}','update');
     Route::delete('/delete/{post}','destroy');
 });
