@@ -12,6 +12,7 @@ Route::middleware('auth:sanctum')->prefix('category')->controller(CategoryContro
     Route::withoutMiddleware('auth:sanctum')->get('/','index');
     Route::post('create','store');
     Route::get('/{category}','show');
+    Route::withoutMiddleware('auth:sanctum')->get('/{category}/posts','posts');
     Route::put('/update/{category}','update');
     Route::delete('/delete/{category}','destroy');
 });

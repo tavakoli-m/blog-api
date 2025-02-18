@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryApiResource;
+use App\Http\Resources\Post\PostApiResource;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -19,6 +20,19 @@ class CategoryController extends Controller
         return response()->json([
             'success' => true,
             'data' => CategoryApiResource::collection($categories),
+            'message' => 'عملیات با موفقیت انجام شد'
+        ]);
+    }
+
+    public function posts(Category $category){
+        $posts = $category->posts;
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'category' => new CategoryApiResource($category),
+                'posts' => PostApiResource::collection($posts)
+            ],
             'message' => 'عملیات با موفقیت انجام شد'
         ]);
     }
