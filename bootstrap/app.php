@@ -2,6 +2,7 @@
 
 use App\API\Res\Facades\Response;
 use App\Exceptions\RequestException;
+use App\Http\Middleware\RequireAcceptJsonHeader;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -26,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->prependToGroup('api',RequireAcceptJsonHeader::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(function(){
