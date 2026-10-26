@@ -25,6 +25,7 @@ Route::prefix('admin')->group(function(){
 
     Route::prefix('post')->controller(PostController::class)->group(function(){
         Route::get('/','index');
+        Route::get('/categories','categories');
         Route::get('/{post}','show');
         Route::post('/add','store');
         Route::put('/{post}/update','update');

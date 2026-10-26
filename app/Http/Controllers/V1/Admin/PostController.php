@@ -5,15 +5,18 @@ namespace App\Http\Controllers\V1\Admin;
 use App\API\Req\Request;
 use App\API\Res\Facades\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Post\CategoryListRequest;
 use App\Http\Requests\V1\Admin\Post\ChangeStatusRequest;
 use App\Http\Requests\V1\Admin\Post\DeletePostRequest;
 use App\Http\Requests\V1\Admin\Post\IndexPostRequest;
 use App\Http\Requests\V1\Admin\Post\ShowPostRequest;
 use App\Http\Requests\V1\Admin\Post\StorePostRequest;
 use App\Http\Requests\V1\Admin\Post\UpdatePostRequest;
+use App\Http\Resources\V1\Admin\Post\CategoryListApiResource;
 use App\Http\Resources\V1\Admin\Post\PostApiResource;
 use App\Http\Resources\V1\Admin\Post\PostApiResourceCollection;
 use App\Http\Resources\V1\Admin\Post\PostDetailApiResource;
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
@@ -88,6 +91,13 @@ class PostController extends Controller
             $inputs = $request->validated();
 
             if ($request->has('image')) {
+
+                $fileDeleteResult = File::delete(public_path('images/'.$post->image));
+
+                if (! $fileDeleteResult) {
+                    return false;
+                }
+
                 $imageName = time().'_'.str_replace(' ', '_', $request->file('image')->getClientOriginalName());
                 $image = $request->file('image')->move(public_path('images'), $imageName);
 
@@ -136,9 +146,20 @@ class PostController extends Controller
     {
         $result = app(Request::class)(function () use ($post) {
             $post->update(['status' => $post->status == 1 ? 2 : 1]);
+
             return $post;
         });
 
         return Response::withStatus(200)->withData(new PostApiResource($result->data))->send();
+    }
+
+    public function categories(CategoryListRequest $request)
+    {
+
+        $result = app(Request::class)(function () {
+            return Category::all();
+        });
+
+        return Response::withStatus(200)->withData(CategoryListApiResource::collection($result->data))->send();
     }
 }
