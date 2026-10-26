@@ -3,6 +3,7 @@
 use App\API\Req\Request;
 use App\API\Res\Facades\Response;
 use App\Http\Controllers\V1\Admin\CategoryController;
+use App\Http\Controllers\V1\Admin\CommentController;
 use App\Http\Controllers\V1\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +32,12 @@ Route::prefix('admin')->group(function(){
         Route::put('/{post}/update','update');
         Route::put('/{post}/change-status','changeStatus');
         Route::delete('/{post}/delete','destroy');
+    });
+
+    Route::prefix('comment')->controller(CommentController::class)->group(function(){
+        Route::get('/','index');
+        Route::get('/{comment}','show');
+        Route::put('/{comment}/change-status','changeStatus');
+        Route::post('/{comment}/answer','answer');
     });
 });
