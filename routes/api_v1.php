@@ -5,6 +5,7 @@ use App\API\Res\Facades\Response;
 use App\Http\Controllers\V1\Admin\CategoryController;
 use App\Http\Controllers\V1\Admin\CommentController;
 use App\Http\Controllers\V1\Admin\PostController;
+use App\Http\Controllers\V1\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/welcome', function(){
@@ -40,4 +41,9 @@ Route::prefix('admin')->group(function(){
         Route::put('/{comment}/change-status','changeStatus');
         Route::post('/{comment}/answer','answer');
     });
+});
+
+
+Route::prefix('auth')->group(function(){
+    Route::post('/register',RegisterController::class);
 });
