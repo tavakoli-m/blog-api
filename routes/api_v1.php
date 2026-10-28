@@ -5,6 +5,7 @@ use App\API\Res\Facades\Response;
 use App\Http\Controllers\V1\Admin\CategoryController;
 use App\Http\Controllers\V1\Admin\CommentController;
 use App\Http\Controllers\V1\Admin\PostController;
+use App\Http\Controllers\V1\Auth\GetMeController;
 use App\Http\Controllers\V1\Auth\LoginController;
 use App\Http\Controllers\V1\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
@@ -48,4 +49,5 @@ Route::prefix('admin')->group(function(){
 Route::prefix('auth')->group(function(){
     Route::post('/register',RegisterController::class);
     Route::post('/login',LoginController::class);
+    Route::get('/me',GetMeController::class)->middleware('auth:sanctum');
 });
